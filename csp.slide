@@ -1,0 +1,138 @@
+Real World CSP
+Look mom, no mutexes!
+4 Mar 2016
+
+Eliot Hedeman
+Systems Developer, Deepfield Networks
+eliot.d.hedeman@gmail.com
+http://eliothedeman.com
+@eliothedeman
+
+
+* Who is this guy?
+These are the things I work on:
+.link https://github.com/eliothedeman/bangarang Bangarang
+- Stream processor for monitoring applications
+.link https://github.com/eliothedeman/immut Immut
+- Collection of immutible/persistant data structures
+.link https://github.com/glycerine/zygomys Zygomys
+- LISP similar to colojure written in go
+
+
+* Topics
+
+Whats a CSP?
+- _No_Code_
+
+How does one CSP?
+- _Some_Code_
+
+Concurency building blocks
+- _Mostly_Code_
+
+Bow to Rob Pike
+- _Gospel_music_and_speaking_in_tongues_
+
+
+_"But_I_don't_know_go"_
+
+Don't worry, just trust me
+
+
+* What's a CSP?
+	
+*Definition*
+In computer science, communicating sequential processes (CSP) is a formal language for describing patterns of interaction in concurrent systems.
+# TODO define each word
+- Based on a paper written by Tony Hoare in 1978
+- Has morphed from a langauge that describes the behavior of programs into a set of concepts that we can use to structure concurrent programs in a sane and performant matter.
+
+* Well "WTF is a concurrency?"
+
+Well for one thing, it's not parallelism you idiot
+
+According to Rob Pike...
+"The composition of independently executing processes."
+
+* Cont.
+
+Concurrency = Dealing with a lot of things at once (Structure)
+Parrallelism = Doing a lot of things at once (Execution)
+
+.link http://blog.golang.org/concurrency-is-not-parallelism Concurrency is not parallelism - Rob Pike
+
+* Example
+.image img/cat1.png 200 900
+
+* But I want to go fast... Double everything
+.image img/cat2.png 400 900
+
+Now we have something that, given multiple CPUs will be parallel. But it doesn't have to be.
+This will exicute just fine on a single core machine.
+
+* Problems with this approach.
+- One pile could run out before the other, leaving gophers just sitting there.
+- Shaving a cat takes way longer than taking it's picture. The picture taking gopher will just be hanging out.
+- Plain wasteful if you want to scale even more.
+
+* Another approach.
+.image img/cat3.png 400 900
+
+* Cont.
+This archetecture allows any section of the pipeline to increase it's number of workers without changing the validity of the program.
+
+* How does one CSP?
+Now that we have seen what CSP can do, lets see what we need to make it happen.
+
+* Communicaton (the "C" in CSP)
+
+We need an efficient method of communication between our processes.
+
+In go we have *channels*, which are much like pipes in the shell.
+They allow for a/synchronous communication between goroutines
+
+They are made like this...
+.code examples/channel.go /1 OMIT/,/2 OMIT/
+
+Send data on a channel like this...
+.code examples/channel.go /3 OMIT/,/4 OMIT/
+
+Receve data off a channel like this...
+.code examples/channel.go /5 OMIT/,/6 OMIT/
+
+* Channels are...
+
+- Typed.
+- Threadsafe.
+- Really just threadsafe queues of a fixed size somewhere on the heap.
+- Fun.
+If you write to a channel and you fill it's size, it will block until someone reads.
+If you read to a channel that is empty, it will block until someone writes.
+
+By default all channels are of size zero, but you can make what is called a _buffered_channel_ by providing a size when you call make() as the second argument.
+.code examples/channel.go /7 OMIT/,/8 OMIT/
+
+* Execution (the "SP" in CSP)
+
+We need an efficient method of running sequential code in a concurrent environmnet.
+
+In go we have *goroutines*, which you can think of as extremely cheap threads.
+Goroutines are started by prefixing a function call with the keyword _go_.
+
+.code examples/goroutine.go /START OMIT/,/END OMIT/
+
+* Goroutines are...
+
+- Cleaned up/recycled by the runtime when they fall out of scope.
+- Mapped to OS threads by the runtime.
+- Extremely lightweight.
+- Just as dangerous as threads when used in the wrong way.
+- Easily abused.
+
+
+* WONDER TWINS UNITE
+
+.play  examples/channel.go /START OMIT/,/END OMIT/
+
+
+

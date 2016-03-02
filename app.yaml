@@ -1,5 +1,5 @@
-application: golang-org
-version: talks-test
+application: talks-1238
+version: prod
 runtime: go
 api_version: go1
 
@@ -13,4 +13,4 @@ handlers:
 - url: /.*
   script: _go_app
 
-nobuild_files: ^201[0-9]/
+nobuild_files: ^charts|examples|img/
