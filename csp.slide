@@ -135,4 +135,54 @@ Goroutines are started by prefixing a function call with the keyword _go_.
 .play  examples/channel.go /START OMIT/,/END OMIT/
 
 
+* Pipelines
 
+The pattern of kings.
+
+- Always DAGs.
+- Data ownership is given up when passed to a stage of the pipeline.
+- Performance can be easily monitored and profiled by looking at the connection between stages.
+
+* Example
+
+Lets look at some functions we will use to modify strings (these are our "processes")
+
+.code examples/sync_pipeline.go /1 OMIT/,/2 OMIT/
+.code examples/sync_pipeline.go /3 OMIT/,/4 OMIT/
+.code examples/sync_pipeline.go /5 OMIT/,/6 OMIT/
+
+* In action
+You have seen this pattern before.
+.play examples/sync_pipeline.go /START OMIT/,/END OMIT/
+
+But it is all happening in serial
+.play examples/sync_pipeline2.go /START OMIT/,/END OMIT/
+
+* But we want concurrency...
+Lets make the functions processes!
+
+* Quote
+.code examples/async_pipeline.go /1 OMIT/,/2 OMIT/
+
+* Cap
+.code examples/async_pipeline.go /3 OMIT/,/4 OMIT/
+
+* Explode
+.code examples/async_pipeline.go /4 OMIT/,/6 OMIT/
+
+* In action
+.play examples/async_pipeline.go /START OMIT/,/END OMIT/
+
+* We can do better
+That was verbose as hell. But how do you factor out concurency.
+
+go back to the original functions
+.code examples/sync_pipeline.go /1 OMIT/,/2 OMIT/
+.code examples/sync_pipeline.go /3 OMIT/,/4 OMIT/
+.code examples/sync_pipeline.go /5 OMIT/,/6 OMIT/
+
+* Create a few interfaces and a wrapper
+.code examples/async_pipeline2.go /1 OMIT/,/2 OMIT/
+
+* And we can use it like such
+.play examples/async_pipeline2.go /START OMIT/,/END OMIT/

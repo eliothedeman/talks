@@ -29,6 +29,7 @@ func Explode(msg string) string {
 
 func main() {
 
+	// START OMIT
 	strs := []string{
 		"happy",
 		"birthday",
@@ -39,4 +40,5 @@ func main() {
 	for _, s := range strs {
 		println(Quote(Explode(Cap(s))))
 	}
+	// END OMIT
 }

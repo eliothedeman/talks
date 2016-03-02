@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// 1 OMIT
 func Quote(msg chan string) chan string {
 	out := make(chan string)
 	go func() {
@@ -16,6 +17,9 @@ func Quote(msg chan string) chan string {
 	return out
 }
 
+// 2 OMIT
+
+// 3 OMIT
 func Cap(msg chan string) chan string {
 	out := make(chan string)
 	go func() {
@@ -27,6 +31,9 @@ func Cap(msg chan string) chan string {
 	return out
 }
 
+// 4 OMIT
+
+// 5 OMIT
 func Explode(msg chan string) chan string {
 	out := make(chan string)
 	go func() {
@@ -36,7 +43,6 @@ func Explode(msg chan string) chan string {
 				e[i*2] = s[i]
 				if i != len(s)-1 {
 					e[(i*2)+1] = ' '
-
 				}
 			}
 			out <- string(e)
@@ -44,11 +50,13 @@ func Explode(msg chan string) chan string {
 		close(out)
 	}()
 	return out
-
 }
+
+// 6 OMIT
 
 func main() {
 
+	// START OMIT
 	strs := []string{
 		"happy",
 		"birthday",
@@ -67,4 +75,5 @@ func main() {
 	for s := range Quote(Explode(Cap(in))) {
 		println(s)
 	}
+	// END OMIT
 }
