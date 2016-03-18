@@ -40,7 +40,7 @@ Don't worry, just trust me
 
 
 * What's a CSP?
-	
+
 *Definition*
 In computer science, communicating sequential processes (CSP) is a formal language for describing patterns of interaction in concurrent systems.
 # TODO define each word
@@ -174,7 +174,7 @@ Lets make the functions processes!
 .play examples/async_pipeline.go /START OMIT/,/END OMIT/
 
 * We can do better
-That was verbose as hell. But how do you factor out concurency.
+That was verbose as hell. But how do you factor out concurrency.
 
 go back to the original functions
 .code examples/sync_pipeline.go /1 OMIT/,/2 OMIT/
@@ -186,3 +186,19 @@ go back to the original functions
 
 * And we can use it like such
 .play examples/async_pipeline2.go /START OMIT/,/END OMIT/
+
+* Select
+
+In *UNIX*:
+A really awesome syscall that lets you wait on a number of file descriptors until one or more of them is available for an IO action.
+- Greatly simplifies the concept of using the availability of information as a control structure.
+- Super gross and hard to use for non experts (Myself included)
+
+In *Go*
+A really awesome control structure that lets you wait on a number of channels until one or more of them is available for an IO action.
+- Greatly simplifies the concept of using the availability of information as a control structure.
+- Super clean and easy to use.
+- Easy way to introduce deadlocks if you don't understand who is doing what when.
+
+* Lets race
+.play examples/select.go /START OMIT/,/END OMIT/
