@@ -215,3 +215,7 @@ To do this we need two things.
 
 * Decide the winner
 .play examples/select.go /START OMIT/,/END OMIT/
+
+* Timeouts
+Select makes timeouts easy
+.play examples/timeout.go /START OMIT/,/END OMIT/
