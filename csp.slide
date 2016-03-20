@@ -191,14 +191,27 @@ go back to the original functions
 
 In *UNIX*:
 A really awesome syscall that lets you wait on a number of file descriptors until one or more of them is available for an IO action.
+
 - Greatly simplifies the concept of using the availability of information as a control structure.
 - Super gross and hard to use for non experts (Myself included)
 
 In *Go*
 A really awesome control structure that lets you wait on a number of channels until one or more of them is available for an IO action.
+
 - Greatly simplifies the concept of using the availability of information as a control structure.
 - Super clean and easy to use.
 - Easy way to introduce deadlocks if you don't understand who is doing what when.
 
 * Lets race
+Eliot and Nolen are going to race to see who can count to ten the fastest.
+
+To do this we need two things.
+
+- A way to count and signal when counting complete.
+- A way to receive the signal that counting is complete.
+
+* Count and signal
+.code examples/select.go /1 OMIT/,/2 OMIT/
+
+* Decide the winner
 .play examples/select.go /START OMIT/,/END OMIT/
