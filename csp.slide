@@ -17,10 +17,14 @@ These are the things I work on:
 - Collection of immutible/persistant data structures
 .link https://github.com/glycerine/zygomys Zygomys
 - LISP similar to colojure written in go
+.link https://github.com/prometheus/prometheus Prometheus
+- Monitoring system and time series database.
 
+* CSP (Communicating Sequential Processes)
+_"Don't_communicate_by_sharing_memory._Share_memory_by_communicating_. "
+-- Rob Pike
 
-* Topics
-
+* Roadmap
 Whats a CSP?
 - _No_Code_
 
@@ -34,18 +38,13 @@ Bow to Rob Pike
 - _Gospel_music_and_speaking_in_tongues_
 
 
-_"But_I_don't_know_go"_
-
-Don't worry, just trust me
-
-
 * What's a CSP?
 
 *Definition*
 In computer science, communicating sequential processes (CSP) is a formal language for describing patterns of interaction in concurrent systems.
-# TODO define each word
+
 - Based on a paper written by Tony Hoare in 1978
-- Has morphed from a langauge that describes the behavior of programs into a set of concepts that we can use to structure concurrent programs in a sane and performant matter.
+- Has morphed from a langauge that describes the behavior of programs into a set of concepts that we can use to structure concurrent programs in a sane and performant manner.
 
 * Well "WTF is a concurrency?"
 
@@ -68,7 +67,7 @@ Parrallelism = Doing a lot of things at once (Execution)
 .image img/cat2.png 400 900
 
 Now we have something that, given multiple CPUs will be parallel. But it doesn't have to be.
-This will exicute just fine on a single core machine.
+This will execute just fine on a single core machine.
 
 * Problems with this approach.
 - One pile could run out before the other, leaving gophers just sitting there.
@@ -79,12 +78,12 @@ This will exicute just fine on a single core machine.
 .image img/cat3.png 400 900
 
 * Cont.
-This archetecture allows any section of the pipeline to increase it's number of workers without changing the validity of the program.
+This architecture allows any section of the pipeline to increase it's number of workers without changing the validity of the program.
 
 * How does one CSP?
 Now that we have seen what CSP can do, lets see what we need to make it happen.
 
-* Communicaton (the "C" in CSP)
+* Communication (the "C" in CSP)
 
 We need an efficient method of communication between our processes.
 
@@ -97,14 +96,14 @@ They are made like this...
 Send data on a channel like this...
 .code examples/channel.go /3 OMIT/,/4 OMIT/
 
-Receve data off a channel like this...
+Receive data off a channel like this...
 .code examples/channel.go /5 OMIT/,/6 OMIT/
 
 * Channels are...
 
 - Typed.
-- Threadsafe.
-- Really just threadsafe queues of a fixed size somewhere on the heap.
+- Thread-safe.
+- Really just thread-safe queues of a fixed size somewhere on the heap.
 - Fun.
 If you write to a channel and you fill it's size, it will block until someone reads.
 If you read to a channel that is empty, it will block until someone writes.
@@ -114,7 +113,7 @@ By default all channels are of size zero, but you can make what is called a _buf
 
 * Execution (the "SP" in CSP)
 
-We need an efficient method of running sequential code in a concurrent environmnet.
+We need an efficient method of running sequential code in a concurrent environment.
 
 In go we have *goroutines*, which you can think of as extremely cheap threads.
 Goroutines are started by prefixing a function call with the keyword _go_.
