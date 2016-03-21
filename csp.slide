@@ -44,7 +44,22 @@ Bow to Rob Pike
 In computer science, communicating sequential processes (CSP) is a formal language for describing patterns of interaction in concurrent systems.
 
 - Based on a paper written by Tony Hoare in 1978
-- Has morphed from a langauge that describes the behavior of programs into a set of concepts that we can use to structure concurrent programs in a sane and performant manner.
+- Has morphed from a language that describes the behavior of programs into a set of concepts that we can use to structure concurrent programs in a sane and performant manner.
+
+* Communication
+
+The imparting or interchange of information.
+
+* Sequence
+
+The following of one thing after another.
+
+* Process
+
+A systematic series of actions directed to some end.
+
+* Example
+        cat /var/log/syslog | grep api | of=/dev/floppy0
 
 * Well "WTF is a concurrency?"
 
