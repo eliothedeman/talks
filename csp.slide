@@ -203,7 +203,7 @@ A really awesome control structure that lets you wait on a number of channels un
 - Easy way to introduce deadlocks if you don't understand who is doing what when.
 
 * Lets race
-Eliot and Nolen are going to race to see who can count to ten the fastest.
+Scott and Nolen are going to race to see who can count to ten the fastest.
 
 To do this we need two things.
 

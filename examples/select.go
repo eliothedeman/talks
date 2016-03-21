@@ -34,15 +34,15 @@ func race(name string, raceTo int) chan struct{} {
 
 func main() {
 	// START OMIT
-	eliot := race("Eliot", 10)
+	scott := race("Scott", 10)
 	nolen := race("Nolen", 10)
 
 	select {
-	case <-eliot:
-		println("Eliot wins, Nolen is a dumb dumb.")
+	case <-scott:
+		println("Scott wins, Nolen is a dumb dumb.")
 
 	case <-nolen:
-		println("Nolen wins, Eliot is a dumb dumb.")
+		println("Nolen wins, Scott is a dumb dumb.")
 	}
 	// END OMIT
 }
