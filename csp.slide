@@ -24,27 +24,18 @@ These are the things I work on:
 _"Don't_communicate_by_sharing_memory._Share_memory_by_communicating_. "
 -- Rob Pike
 
-* Roadmap
-Whats a CSP?
-- _No_Code_
+* My thoughts on rob pike...
 
-How does one CSP?
-- _Some_Code_
-
-Concurency building blocks
-- _Mostly_Code_
-
-Bow to Rob Pike
-- _Gospel_music_and_speaking_in_tongues_
-
+.image img/notworthy.gif
 
 * What's a CSP?
 
-*Definition*
-In computer science, communicating sequential processes (CSP) is a formal language for describing patterns of interaction in concurrent systems.
+In computer science, CSP is a formal language for describing patterns of interaction in concurrent systems.
 
 - Based on a paper written by Tony Hoare in 1978
 - Has morphed from a language that describes the behavior of programs into a set of concepts that we can use to structure concurrent programs in a sane and performant manner.
+
+.image img/vending.svg
 
 * Communication
 
@@ -61,9 +52,18 @@ A systematic series of actions directed to some end.
 * Example
         cat /var/log/syslog | grep api | of=/dev/floppy0
 
+* Principles (Unofficial)
+
+- Processes have one or more inputs.
+- Processes have one or more outputs.
+- Ownership of data is given up when passed to the next process.
+- Anything can be communicated, even processes.
+- Only concern yourself with the connection between processes, not the function of the processes.
+- If you want to go faster, do more work.
+
 * Well "WTF is a concurrency?"
 
-Well for one thing, it's not parallelism you idiot
+Well for one thing, it's not parallelism.
 
 According to Rob Pike...
 "The composition of independently executing processes."
@@ -230,6 +230,18 @@ To do this we need two things.
 * Decide the winner
 .play examples/select.go /START OMIT/,/END OMIT/
 
-* Timeouts
-Select makes timeouts easy
-.play examples/timeout.go /START OMIT/,/END OMIT/
+* Now lets build something serious
+
+.image img/walk.gif 400 500
+
+* Lets write a game
+
+Rules:
+- Guess a number between 0 and n * 10. Where n = the round # + 1.
+- The first player to guess the number gets n points.
+- The first player to get 100 points wins.
+
+* Define the processes
+- Player - Guess random numbers within a given range.
+- Referee - Check the random numbers against the secret number and report correct guesses.
+- Scoreboard - Keep track of the score and report the end of the game.
