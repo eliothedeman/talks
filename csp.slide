@@ -21,12 +21,12 @@ These are the things I work on:
 - Monitoring system and time series database.
 
 * CSP (Communicating Sequential Processes)
-_"Don't_communicate_by_sharing_memory._Share_memory_by_communicating_. "
--- Rob Pike
+Questions you should be able to answer if I do my job correctly.
 
-* My thoughts on rob pike...
-
-.image img/notworthy.gif
+- What is CSP?
+- Why does CSP matter?
+- What do I need to use CSP?
+- What does a CSP program look like?
 
 * What's a CSP?
 
@@ -36,6 +36,20 @@ In computer science, CSP is a formal language for describing patterns of interac
 - Has morphed from a language that describes the behavior of programs into a set of concepts that we can use to structure concurrent programs in a sane and performant manner.
 
 .image img/vending.svg
+
+* Languages with built in support
+
+Old
+- Limbo
+- Sqeak
+- Newsqueak
+
+Modern
+- Go
+- Erlang
+- Stackless Python (kind of)
+
+* Lets break down the definition.
 
 * Communication
 
@@ -61,7 +75,7 @@ A systematic series of actions directed to some end.
 - Only concern yourself with the connection between processes, not the function of the processes.
 - If you want to go faster, do more work.
 
-* Well "WTF is a concurrency?"
+* You mentioned concurrency before, whats that?
 
 Well for one thing, it's not parallelism.
 
@@ -81,8 +95,7 @@ Parrallelism = Doing a lot of things at once (Execution)
 * But I want to go fast... Double everything
 .image img/cat2.png 400 900
 
-Now we have something that, given multiple CPUs will be parallel. But it doesn't have to be.
-This will execute just fine on a single core machine.
+Now we have something that, given multiple CPUs will be parallel.
 
 * Problems with this approach.
 - One pile could run out before the other, leaving gophers just sitting there.
@@ -125,6 +138,15 @@ If you read to a channel that is empty, it will block until someone writes.
 
 By default all channels are of size zero, but you can make what is called a _buffered_channel_ by providing a size when you call make() as the second argument.
 .code examples/channel.go /7 OMIT/,/8 OMIT/
+
+* Wise words
+
+_"Don't_communicate_by_sharing_memory._Share_memory_by_communicating_. "
+-- Rob Pike
+
+* My thoughts on rob pike...
+
+.image img/notworthy.gif
 
 * Execution (the "SP" in CSP)
 
