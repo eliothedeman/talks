@@ -1,6 +1,6 @@
 Real World CSP
 Look mom, no mutexes!
-4 Mar 2016
+23 Mar 2016
 
 Eliot Hedeman
 Systems Developer, Deepfield Networks
@@ -27,6 +27,7 @@ Questions you should be able to answer if I do my job correctly.
 - Why does CSP matter?
 - What do I need to use CSP?
 - What does a CSP program look like?
+- Why does Eliot like go so much?
 
 * What's a CSP?
 
@@ -35,6 +36,7 @@ In computer science, CSP is a formal language for describing patterns of interac
 - Based on a paper written by Tony Hoare in 1978
 - Has morphed from a language that describes the behavior of programs into a set of concepts that we can use to structure concurrent programs in a sane and performant manner.
 
+An example of the formal language.
 .image img/vending.svg
 
 * Languages with built in support
@@ -45,11 +47,11 @@ Old
 - Newsqueak
 
 Modern
-- Go
-- Erlang
-- Stackless Python (kind of)
+- Erlang (high level)
+- Go (low level)
+- Stackless Python (kind of but not really)
 
-* Lets break down the definition.
+* Lets break down the definition
 
 * Communication
 
@@ -66,7 +68,7 @@ A systematic series of actions directed to some end.
 * Example
         cat /var/log/syslog | grep api | of=/dev/floppy0
 
-* Principles (Unofficial)
+* Principles (According to me)
 
 - Processes have one or more inputs.
 - Processes have one or more outputs.
@@ -85,7 +87,10 @@ According to Rob Pike...
 * Cont.
 
 Concurrency = Dealing with a lot of things at once (Structure)
-Parrallelism = Doing a lot of things at once (Execution)
+Parallelism = Doing a lot of things at once (Execution)
+
+Parallelism is the square to concurrencies rectangle.
+
 
 .link http://blog.golang.org/concurrency-is-not-parallelism Concurrency is not parallelism - Rob Pike
 
@@ -95,18 +100,24 @@ Parrallelism = Doing a lot of things at once (Execution)
 * But I want to go fast... Double everything
 .image img/cat2.png 400 900
 
-Now we have something that, given multiple CPUs will be parallel.
+Now we have something that, given multiple CPUs, will run twice as fast.
 
-* Problems with this approach.
+* Problems with this approach
+
 - One pile could run out before the other, leaving gophers just sitting there.
 - Shaving a cat takes way longer than taking it's picture. The picture taking gopher will just be hanging out.
 - Plain wasteful if you want to scale even more.
+- Typical SIMD parallel architecture.
 
 * Another approach.
 .image img/cat3.png 400 900
 
-* Cont.
-This architecture allows any section of the pipeline to increase it's number of workers without changing the validity of the program.
+* Benefits of this approach
+
+- Only one pile of cats. When you're out, you're done.
+- If you find a bottleneck, just increase the number of workers at that point in the pipeline.
+- Will only consume the resources it needs.
+- Works correctly regardless of the amount of parallelism.
 
 * How does one CSP?
 Now that we have seen what CSP can do, lets see what we need to make it happen.
@@ -116,7 +127,7 @@ Now that we have seen what CSP can do, lets see what we need to make it happen.
 We need an efficient method of communication between our processes.
 
 In go we have *channels*, which are much like pipes in the shell.
-They allow for a/synchronous communication between goroutines
+They allow for a/synchronous communication between goroutines.
 
 They are made like this...
 .code examples/channel.go /1 OMIT/,/2 OMIT/
@@ -259,11 +270,24 @@ To do this we need two things.
 * Lets write a game
 
 Rules:
-- Guess a number between 0 and n * 10. Where n = the round # + 1.
+
+- Guess a number between 0 and n * 100000. Where n = the round # + 1.
 - The first player to guess the number gets n points.
 - The first player to get 100 points wins.
 
 * Define the processes
+
 - Player - Guess random numbers within a given range.
 - Referee - Check the random numbers against the secret number and report correct guesses.
-- Scoreboard - Keep track of the score and report the end of the game.
+
+* Player
+
+.code examples/game/main.go /0 OMIT/,/1 OMIT/
+
+* Referee
+
+.code examples/game/main.go /2 OMIT/,/3 OMIT/
+
+* Play the game
+
+.play examples/game/main.go /START OMIT/,/END OMIT/

@@ -9,7 +9,7 @@ type guess struct {
 	guesser string
 	guess   int
 }
-
+// 0 OMIT
 func startGuessing(player string, max int) chan guess {
 	out := make(chan guess)
 	go func() {
@@ -23,44 +23,45 @@ func startGuessing(player string, max int) chan guess {
 
 	return out
 }
+// 1 OMIT
 
-func playGame(p []string) chan string {
+
+func playGame(players []string) chan string {
 	winner := make(chan string)
 	go func() {
 		round := 1
 		scores := map[string]int{}
+			//2 OMIT
 		for {
 			secret := rand.Intn(round * 100000)
 			fanIn := make(chan guess)
-
-			for i := range p {
+			for i := range players {
 				go func(i int) {
-					out := startGuessing(p[i], round*100000)
+					out := startGuessing(players[i], round*100000)
 					for g := range out {
 						fanIn <- g
 					}
 				}(i)
 			}
-
 			for {
 				g := <-fanIn
 				if g.guess == secret {
-					fmt.Printf("%s won round %d: correct guess %d\n", g.guesser, round, secret)
+					fmt.Printf("%s won round %d: correct guess %d\n", g.guesser, round, secret) // OMIT
 					scores[g.guesser] += round
-					for k, v := range scores {
-						fmt.Printf("%s: %d\n", k, v)
-					}
+					for k, v := range scores { // OMIT
+						fmt.Printf("%s: %d\n", k, v) //OMIT
+					}// OMIT
 					if scores[g.guesser] >= 100 {
-						println("====SCORES====")
-						for k, v := range scores {
-							fmt.Printf("%s: %d\n", k, v)
-						}
+						println("====SCORES====") // OMIT
+						for k, v := range scores { // OMIT
+							fmt.Printf("%s: %d\n", k, v) // OMIT
+						} // OMIT
 						winner <- g.guesser
 						return
 					}
 					round++
 					break
-
+			//3 OMIT
 				}
 			}
 		}
@@ -70,10 +71,13 @@ func playGame(p []string) chan string {
 }
 
 func main() {
+
+	// START OMIT
 	winner := playGame([]string{
 		"eliot",
 		"nolen",
 	})
 
 	fmt.Printf("%s WINS!!!!\n", <-winner)
+	// END OMIT
 }
